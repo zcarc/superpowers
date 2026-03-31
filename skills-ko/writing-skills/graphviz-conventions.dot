@@ -1,0 +1,172 @@
+digraph STYLE_GUIDE {
+    // 프로세스 DSL을 위한 스타일 가이드, DSL 자체로 작성됨
+
+    // 노드 유형 및 모양 예시
+    subgraph cluster_node_types {
+        label="노드 유형 및 모양";
+
+        // 질문은 마름모(diamond)
+        "질문인가요?" [shape=diamond];
+
+        // 행동은 박스(box, 기본값)
+        "행동 취하기" [shape=box];
+
+        // 명령어는 일반 텍스트(plaintext)
+        "git commit -m 'msg'" [shape=plaintext];
+
+        // 상태는 타원(ellipse)
+        "현재 상태" [shape=ellipse];
+
+        // 경고는 팔각형(octagon)
+        "중단: 치명적 경고" [shape=octagon, style=filled, fillcolor=red, fontcolor=white];
+
+        // 시작/종료는 이중 원(doublecircle)
+        "프로세스 시작" [shape=doublecircle];
+        "프로세스 완료" [shape=doublecircle];
+
+        // 각각의 예시
+        "테스트가 통과하나요?" [shape=diamond];
+        "테스트 먼저 작성" [shape=box];
+        "npm test" [shape=plaintext];
+        "막혔음" [shape=ellipse];
+        "절대 git add -A를 쓰지 마시오" [shape=octagon, style=filled, fillcolor=red, fontcolor=white];
+    }
+
+    // 엣지(Edge) 명명 규칙
+    subgraph cluster_edge_types {
+        label="엣지 레이블";
+
+        "이진 결정?" [shape=diamond];
+        "예 경로" [shape=box];
+        "아니오 경로" [shape=box];
+
+        "이진 결정?" -> "예 경로" [label="예"];
+        "이진 결정?" -> "아니오 경로" [label="아니오"];
+
+        "다중 선택?" [shape=diamond];
+        "옵션 A" [shape=box];
+        "옵션 B" [shape=box];
+        "옵션 C" [shape=box];
+
+        "다중 선택?" -> "옵션 A" [label="조건 A"];
+        "다중 선택?" -> "옵션 B" [label="조건 B"];
+        "다중 선택?" -> "옵션 C" [label="기타"];
+
+        "프로세스 A 완료" [shape=doublecircle];
+        "프로세스 B 시작" [shape=doublecircle];
+
+        "프로세스 A 완료" -> "프로세스 B 시작" [label="트리거", style=dotted];
+    }
+
+    // 명명 패턴
+    subgraph cluster_naming_patterns {
+        label="명명 패턴";
+
+        // 질문은 ?로 끝남
+        "X를 해야 할까요?";
+        "이것이 Y가 될 수 있나요?";
+        "Z가 참인가요?";
+        "W를 완료했나요?";
+
+        // 행동은 동사로 시작
+        "테스트 작성";
+        "패턴 검색";
+        "변경 사항 커밋";
+        "도움 요청";
+
+        // 명령어는 있는 그대로 작성
+        "grep -r 'pattern' .";
+        "git status";
+        "npm run build";
+
+        // 상태는 상황을 설명
+        "테스트 실패 중";
+        "빌드 완료";
+        "에러로 인해 막힘";
+    }
+
+    // 프로세스 구조 템플릿
+    subgraph cluster_structure {
+        label="프로세스 구조 템플릿";
+
+        "트리거: 무언가 발생함" [shape=ellipse];
+        "초기 확인?" [shape=diamond];
+        "주요 행동" [shape=box];
+        "git status" [shape=plaintext];
+        "추가 확인?" [shape=diamond];
+        "대안 행동" [shape=box];
+        "중단: 이것을 하지 마시오" [shape=octagon, style=filled, fillcolor=red, fontcolor=white];
+        "프로세스 완료" [shape=doublecircle];
+
+        "트리거: 무언가 발생함" -> "초기 확인?";
+        "초기 확인?" -> "주요 행동" [label="예"];
+        "초기 확인?" -> "대안 행동" [label="아니오"];
+        "주요 행동" -> "git status";
+        "git status" -> "추가 확인?";
+        "추가 확인?" -> "프로세스 완료" [label="정상"];
+        "추가 확인?" -> "중단: 이것을 하지 마시오" [label="문제 발생"];
+        "대안 행동" -> "프로세스 완료";
+    }
+
+    // 어떤 모양을 언제 사용할 것인가
+    subgraph cluster_shape_rules {
+        label="모양 사용 규칙";
+
+        "모양 선택하기" [shape=ellipse];
+
+        "결정 지점인가요?" [shape=diamond];
+        "마름모 사용" [shape=diamond, style=filled, fillcolor=lightblue];
+
+        "명령어인가요?" [shape=diamond];
+        "일반 텍스트 사용" [shape=plaintext, style=filled, fillcolor=lightgray];
+
+        "경고인가요?" [shape=diamond];
+        "팔각형 사용" [shape=octagon, style=filled, fillcolor=pink];
+
+        "시작/종료인가요?" [shape=diamond];
+        "이중 원 사용" [shape=doublecircle, style=filled, fillcolor=lightgreen];
+
+        "상태인가요?" [shape=diamond];
+        "타원 사용" [shape=ellipse, style=filled, fillcolor=lightyellow];
+
+        "기본값: 박스 사용" [shape=box, style=filled, fillcolor=lightcyan];
+
+        "모양 선택하기" -> "결정 지점인가요?";
+        "결정 지점인가요?" -> "마름모 사용" [label="예"];
+        "결정 지점인가요?" -> "명령어인가요?" [label="아니오"];
+        "명령어인가요?" -> "일반 텍스트 사용" [label="예"];
+        "명령어인가요?" -> "경고인가요?" [label="아니오"];
+        "경고인가요?" -> "팔각형 사용" [label="예"];
+        "경고인가요?" -> "시작/종료인가요?" [label="아니오"];
+        "시작/종료인가요?" -> "이중 원 사용" [label="예"];
+        "시작/종료인가요?" -> "상태인가요?" [label="아니오"];
+        "상태인가요?" -> "타원 사용" [label="예"];
+        "상태인가요?" -> "기본값: 박스 사용" [label="아니오"];
+    }
+
+    // 좋은 예 vs 나쁜 예
+    subgraph cluster_examples {
+        label="좋은 예 vs 나쁜 예";
+
+        // 좋음: 구체적이고 모양이 올바름
+        "테스트 실패" [shape=ellipse];
+        "에러 메시지 읽기" [shape=box];
+        "재현 가능한가요?" [shape=diamond];
+        "git diff HEAD~1" [shape=plaintext];
+        "절대 에러를 무시하지 마시오" [shape=octagon, style=filled, fillcolor=red, fontcolor=white];
+
+        "테스트 실패" -> "에러 메시지 읽기";
+        "에러 메시지 읽기" -> "재현 가능한가요?";
+        "재현 가능한가요?" -> "git diff HEAD~1" [label="예"];
+
+        // 나쁨: 모호하고 모양이 틀림
+        bad_1 [label="무언가 비정상", shape=box];  // 타원(상태)이어야 함
+        bad_2 [label="수정하기", shape=box];  // 너무 모호함
+        bad_3 [label="확인", shape=box];  // 마름모여야 함
+        bad_4 [label="명령어 실행", shape=box];  // 실제 명령어가 포함된 일반 텍스트여야 함
+
+        bad_1 -> bad_2;
+        bad_2 -> bad_3;
+        bad_3 -> bad_4;
+    }
+}
