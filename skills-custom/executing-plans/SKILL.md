@@ -1,17 +1,17 @@
 ---
 name: executing-plans
-description: Use when you have a written implementation plan and want the main agent to execute it directly in the current session step by step
+description: Use when the selected execution mode is main-agent direct inline execution for a written implementation plan
 ---
 
 # Executing Plans
 
 ## Overview
 
-Load plan, review critically, execute all tasks, and report actual verified status when complete.
+Execute a written implementation plan directly in the main agent, step by step, with normal verification and explicit handoff only when needed.
 
 **Announce at start:** "I'm using the executing-plans skill to implement this plan."
 
-**Note:** Inline execution means the main agent implements and verifies the work directly in the current session. Do not assume subagents are part of the inline path.
+**Boundary:** This skill applies only after Inline Execution has been selected. If the selected mode is Subagent-Driven or Parallel Subagents, use those skills instead.
 
 ## The Process
 
@@ -32,7 +32,6 @@ For each task:
 ### Step 3: Optional Review Gate
 
 After all tasks complete and are verified:
-- For Inline Execution, do NOT automatically invoke requesting-code-review
 - Request review only when:
   - the user explicitly asks for review
   - the change crosses the review threshold defined by `superpowers:requesting-code-review`
@@ -40,15 +39,11 @@ After all tasks complete and are verified:
 - If review is requested or justified by risk, announce: "I'm using the requesting-code-review skill to review the completed implementation."
 - Then use `superpowers:requesting-code-review` and address Important or Critical issues before proceeding
 
-### Step 4: Integration Actions
+### Step 4: Optional Integration Handoff
 
-Do NOT invoke finishing-a-development-branch unless the user explicitly asks to:
-- commit
-- merge
-- push
-- create a PR
+Do NOT invoke `superpowers:finishing-a-development-branch` unless the user explicitly asks for an integration action such as committing, merging, pushing, or creating a PR.
 
-If the user explicitly asks for one of those integration actions:
+If the user explicitly asks for an integration action:
 - Announce: "I'm using the finishing-a-development-branch skill to complete this work."
 - Then use `superpowers:finishing-a-development-branch`
 
@@ -83,5 +78,5 @@ If the user explicitly asks for one of those integration actions:
 **Required workflow skills:**
 - **superpowers:using-git-worktrees** - REQUIRED: Set up isolated workspace before starting
 - **superpowers:writing-plans** - Creates the plan this skill executes
-- **superpowers:requesting-code-review** - Optional for inline execution; use when review is requested or risk justifies it
+- **superpowers:requesting-code-review** - Optional; use when review is requested or risk justifies it
 - **superpowers:finishing-a-development-branch** - Use only for explicit integration actions

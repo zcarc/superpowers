@@ -1,13 +1,13 @@
 ---
 name: subagent-driven-development
-description: Use when executing implementation plans with independent tasks in the current session
+description: Use when the selected execution mode is sequential subagent-driven execution for a written implementation plan
 ---
 
 # Subagent-Driven Development
 
-Execute plan by dispatching a fresh subagent per task, then run one final review after the full implementation is complete.
+Execute a written implementation plan by dispatching a fresh subagent per task in sequence, then run one final review after the full implementation is complete.
 
-**Why subagents:** You delegate tasks to specialized agents with isolated context. By precisely crafting their instructions and context, you ensure they stay focused and succeed at their task. They should never inherit your session's context or history — you construct exactly what they need. This also preserves your own context for coordination work.
+**Boundary:** This skill applies only after Subagent-Driven execution has been selected. If the selected mode is Inline Execution, use `superpowers:executing-plans`. If the selected mode is Parallel Subagents, use `superpowers:parallel-subagent-execution`.
 
 **Core principle:** Fresh subagent per task + final review at the end = fast iteration with one quality checkpoint
 
@@ -17,25 +17,16 @@ Execute plan by dispatching a fresh subagent per task, then run one final review
 digraph when_to_use {
     "Have implementation plan?" [shape=diamond];
     "Tasks mostly independent?" [shape=diamond];
-    "Stay in this session?" [shape=diamond];
     "subagent-driven-development" [shape=box];
     "executing-plans" [shape=box];
     "Manual execution or brainstorm first" [shape=box];
 
     "Have implementation plan?" -> "Tasks mostly independent?" [label="yes"];
     "Have implementation plan?" -> "Manual execution or brainstorm first" [label="no"];
-    "Tasks mostly independent?" -> "Stay in this session?" [label="yes"];
-    "Tasks mostly independent?" -> "Manual execution or brainstorm first" [label="no - tightly coupled"];
-    "Stay in this session?" -> "subagent-driven-development" [label="yes"];
-    "Stay in this session?" -> "executing-plans" [label="no - parallel session"];
+    "Tasks mostly independent?" -> "subagent-driven-development" [label="yes"];
+    "Tasks mostly independent?" -> "executing-plans" [label="no - tightly coupled or controller-driven"];
 }
 ```
-
-**vs. Executing Plans (parallel session):**
-- Same session (no context switch)
-- Fresh subagent per task (no context pollution)
-- Final review after implementation instead of inline execution checkpoints
-- Faster iteration (no human-in-loop between tasks)
 
 ## The Process
 
@@ -55,7 +46,6 @@ digraph process {
     "Read plan, extract all tasks with full text, note context, create TodoWrite" [shape=box];
     "More tasks remain?" [shape=diamond];
     "Dispatch final code reviewer subagent for entire implementation" [shape=box];
-    "Use superpowers:finishing-a-development-branch" [shape=box style=filled fillcolor=lightgreen];
 
     "Read plan, extract all tasks with full text, note context, create TodoWrite" -> "Dispatch implementer subagent (./implementer-prompt.md)";
     "Dispatch implementer subagent (./implementer-prompt.md)" -> "Implementer subagent asks questions?";
@@ -66,7 +56,12 @@ digraph process {
     "Mark task complete in TodoWrite" -> "More tasks remain?";
     "More tasks remain?" -> "Dispatch implementer subagent (./implementer-prompt.md)" [label="yes"];
     "More tasks remain?" -> "Dispatch final code reviewer subagent for entire implementation" [label="no"];
-    "Dispatch final code reviewer subagent for entire implementation" -> "Use superpowers:finishing-a-development-branch";
+    "Dispatch final code reviewer subagent for entire implementation" -> "Explicit integration request?";
+    "Explicit integration request?" [shape=diamond];
+    "Use superpowers:finishing-a-development-branch" [shape=box style=filled fillcolor=lightgreen];
+    "Done" [shape=ellipse];
+    "Explicit integration request?" -> "Use superpowers:finishing-a-development-branch" [label="yes"];
+    "Explicit integration request?" -> "Done" [label="no"];
 }
 ```
 
@@ -152,7 +147,7 @@ Implementer:
 
 [After all tasks]
 [Get git SHAs, dispatch final code-reviewer]
-Final reviewer: Strengths: Good coverage, clean implementation. Issues: None. Ready to merge.
+Final reviewer: Strengths: Good coverage, clean implementation. Issues: None. Ready for the next requested integration step.
 
 Done!
 ```
@@ -166,9 +161,9 @@ Done!
 - Subagent can ask questions (before AND during work)
 
 **vs. Executing Plans:**
-- Same session (no handoff)
-- Continuous progress (no waiting)
-- Final review automatic
+- More task isolation
+- More controller coordination overhead
+- Stronger separation between implementation tasks
 
 **Efficiency gains:**
 - No file reading overhead (controller provides full text)
@@ -206,7 +201,7 @@ Done!
 - Don't rush them into implementation
 
 **If final reviewer finds issues:**
-- Fix the issues before finishing the branch
+- Fix the issues before any requested integration step
 - Re-run final review if the issues are substantial
 - Don't ignore merge-blocking feedback
 
@@ -220,11 +215,11 @@ Done!
 - **superpowers:using-git-worktrees** - REQUIRED: Set up isolated workspace before starting
 - **superpowers:writing-plans** - Creates the plan this skill executes
 - **superpowers:requesting-code-review** - Code review template for reviewer subagents
-- **superpowers:finishing-a-development-branch** - Complete development after all tasks
+- **superpowers:finishing-a-development-branch** - Use only if the user explicitly requests an integration action
 
 **Subagents should use:**
 - **superpowers:test-driven-development** - Subagents follow TDD for each task
 
-**Alternative workflow:**
+**Alternative workflows:**
 - **superpowers:parallel-subagent-execution** - Use when the plan can be partitioned into independent, non-conflicting parallel waves
-- **superpowers:executing-plans** - Use for parallel session instead of same-session execution
+- **superpowers:executing-plans** - Use when the selected mode is main-agent direct inline execution

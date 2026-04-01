@@ -101,7 +101,7 @@ You: [Fix progress indicators]
 - Fix important issues before merge or branch completion
 
 **Executing Plans:**
-- For Inline Execution, review is optional and risk-based
+- Review is optional and risk-based for main-agent direct execution
 - Review after a major batch if the change is risky or spans multiple tasks
 - Always request review before merge when the completed change set is substantial
 
@@ -123,8 +123,8 @@ You: [Fix progress indicators]
 - Argue with valid technical feedback
 
 **But also never:**
-- dispatch review automatically for every inline bugfix
-- treat review as mandatory for small local display or formatting fixes
+- dispatch review automatically for every small low-risk bugfix
+- treat review as mandatory for isolated local display, formatting, or copy changes
 
 **If reviewer wrong:**
 - Push back with technical reasoning

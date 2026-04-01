@@ -9,6 +9,8 @@ Execute a written implementation plan by grouping safe tasks into parallel waves
 
 **Core principle:** Parallelize only when dependencies and write scopes are clear. When in doubt, keep the work sequential.
 
+**Boundary:** This skill applies only after Parallel Subagents has been selected. If the selected mode is Inline Execution, use `superpowers:executing-plans`. If the selected mode is sequential Subagent-Driven execution, use `superpowers:subagent-driven-development`.
+
 **Isolation rule:** Each parallel task must run on its own dedicated branch and its own dedicated worktree. Do not share branches or worktrees across parallel implementers.
 
 ## When to Use
@@ -114,7 +116,7 @@ After all waves complete:
 - Run the relevant full test suite
 - Invoke `superpowers:requesting-code-review`
 - Fix Important or Critical issues
-- Use `superpowers:finishing-a-development-branch`
+- Use `superpowers:finishing-a-development-branch` only if the user explicitly requests an integration action
 
 ## Prompt Templates
 
@@ -157,7 +159,7 @@ After all waves complete:
 - **superpowers:using-git-worktrees** - REQUIRED: Set up isolated workspace before starting
 - **superpowers:writing-plans** - Creates the plan this skill executes
 - **superpowers:requesting-code-review** - Review the combined result after all waves complete
-- **superpowers:finishing-a-development-branch** - Complete development after review
+- **superpowers:finishing-a-development-branch** - Use only if the user explicitly requests an integration action
 
 **Subagents should use:**
 - **superpowers:test-driven-development** - Subagents follow TDD for each task

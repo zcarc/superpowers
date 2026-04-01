@@ -145,7 +145,9 @@ If you find issues, fix them inline. No need to re-review — just fix and move 
 
 ## Execution Handoff
 
-After saving the plan, or after writing the inline execution checklist for a small-scope task, analyze the work and recommend the best execution mode before asking the user to choose.
+If you saved a full plan document, analyze that plan and recommend the best execution mode before asking the user to choose.
+
+If you wrote a small-scope inline execution checklist instead, treat that checklist as the planning artifact and then recommend the best execution mode for that work. The checklist does not force inline execution by itself; it is just the lightweight planning input.
 
 Evaluate:
 - Task dependencies
@@ -174,15 +176,17 @@ Then present the recommendation in this format:
 **1. Inline Execution**
 - Execute tasks directly in this session, following the plan task-by-task
 - Best for small plans, tightly coupled work, or situations where the controller should do the implementation directly
-- Main-agent-first: do not assume subagent review or branch-finishing workflow will be used automatically
+- The selected execution skill is `superpowers:executing-plans`
 
 **2. Subagent-Driven**
 - Dispatch one fresh subagent per task, execute tasks sequentially, and run one final review after all tasks are complete
 - Best default for multi-task plans where task isolation helps but parallel execution would add risk
+- The selected execution skill is `superpowers:subagent-driven-development`
 
 **3. Parallel Subagents**
 - Partition the plan into independent, non-conflicting waves, run one fresh subagent per task within each wave, then integrate and review the combined result
 - Best for plans with clear ownership, low coupling, and meaningful speedup from parallel work
+- The selected execution skill is `superpowers:parallel-subagent-execution`
 
 **Which approach do you want to use?**
 
