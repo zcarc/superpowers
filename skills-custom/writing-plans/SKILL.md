@@ -159,47 +159,50 @@ Evaluate:
 
 Then present the recommendation in this format:
 
-**Recommended approach:** [1 / 2 / 3 - name]
+**Recommended execution mode:** [exact mode name]
 
 **Why this is the best fit for this plan:**
 - [reason 1]
 - [reason 2]
 - [reason 3]
 
-**Why the other options are not the best fit:**
-- **1. Inline Execution** - [why not chosen]
-- **2. Subagent-Driven** - [why not chosen]
-- **3. Parallel Subagents** - [why not chosen]
+**Why the other available modes are not the best fit:**
+- Add one bullet for every execution mode listed below except the recommended mode.
+- Cover each non-selected mode exactly once.
+- Format: `- **[exact mode name]** - [why not chosen]`
 
-**Execution options:**
+**Execution modes:**
 
-**1. Inline Execution**
-- Execute tasks directly in this session, following the plan task-by-task
-- Best for small plans, tightly coupled work, or situations where the controller should do the implementation directly
-- The selected execution skill is `superpowers:executing-plans`
+- **Inline Execution**
+  - Execute tasks directly in this session, following the plan task-by-task
+  - Best for small plans, tightly coupled work, or situations where the controller should do the implementation directly
+  - Required execution skill: `superpowers:executing-plans`
 
-**2. Subagent-Driven**
-- Dispatch one fresh subagent per task, execute tasks sequentially, and run one final review after all tasks are complete
-- Best default for multi-task plans where task isolation helps but parallel execution would add risk
-- The selected execution skill is `superpowers:subagent-driven-development`
+- **Subagent-Driven**
+  - Dispatch one fresh subagent per task, execute tasks sequentially, and run one final review after all tasks are complete
+  - Best default for multi-task plans where task isolation helps but parallel execution would add risk
+  - Required execution skill: `superpowers:subagent-driven-development`
 
-**3. Parallel Subagents**
-- Partition the plan into independent, non-conflicting waves, run one fresh subagent per task within each wave, then integrate and review the combined result
-- Best for plans with clear ownership, low coupling, and meaningful speedup from parallel work
-- The selected execution skill is `superpowers:parallel-subagent-execution`
+- **Parallel Subagents**
+  - Partition the plan into independent, non-conflicting waves, run one fresh subagent per task within each wave, then integrate and review the combined result
+  - Best for plans with clear ownership, low coupling, and meaningful speedup from parallel work
+  - Required execution skill: `superpowers:parallel-subagent-execution`
 
-**Which approach do you want to use?**
+**Which execution mode do you want to use?**
 
-**If Inline Execution chosen:**
-- **REQUIRED SUB-SKILL:** Use superpowers:executing-plans
-- Direct execution in this session, following the plan task-by-task
+After the user chooses a mode:
+- Load the required execution skill for that mode.
+- Follow that mode's workflow exactly.
 
-**If Subagent-Driven chosen:**
-- **REQUIRED SUB-SKILL:** Use superpowers:subagent-driven-development
-- Fresh subagent per task + implementer self-review per task + one final code review after all tasks
+Mode-specific reminders:
 
-**If Parallel Subagents chosen:**
-- **REQUIRED SUB-SKILL:** Use superpowers:parallel-subagent-execution
-- Partition the plan into dependency-safe waves
-- Assign explicit file ownership per task
+- **Inline Execution**
+  - Direct execution in this session, following the plan task-by-task
+
+- **Subagent-Driven**
+  - Fresh subagent per task + implementer self-review per task + one final code review after all tasks
+
+- **Parallel Subagents**
+  - Partition the plan into dependency-safe waves
+  - Assign explicit file ownership per task
 - Run one final code review after all waves are integrated
