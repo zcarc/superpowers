@@ -49,7 +49,7 @@ This structure informs the task decomposition. Each task should produce self-con
 ```markdown
 # [Feature Name] Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Choose the execution mode that best fits this plan: superpowers:executing-plans, superpowers:subagent-driven-development, or superpowers:parallel-subagent-execution. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** [One sentence describing what this builds]
 
@@ -133,20 +133,56 @@ If you find issues, fix them inline. No need to re-review — just fix and move 
 
 ## Execution Handoff
 
-After saving the plan, offer execution choice:
+After saving the plan, analyze the plan and recommend the best execution mode before asking the user to choose.
 
-**"Plan complete and saved to `docs/superpowers/plans/<filename>.md`. Two execution options:**
+Evaluate:
+- Task dependencies
+- File overlap between tasks
+- Integration risk
+- Interface ambiguity
+- Expected speedup from parallel execution
+- Need for close controller oversight
 
-**1. Subagent-Driven (recommended)** - I dispatch a fresh subagent per task, keep implementation context isolated, and run one final review after all tasks are complete
+Then present the recommendation in this format:
 
-**2. Inline Execution** - Execute tasks in this session using executing-plans, batch execution with checkpoints
+**Recommended approach:** [1 / 2 / 3 - name]
 
-**Which approach?"**
+**Why this is the best fit for this plan:**
+- [reason 1]
+- [reason 2]
+- [reason 3]
+
+**Why the other options are not the best fit:**
+- **1. Inline Execution** - [why not chosen]
+- **2. Subagent-Driven** - [why not chosen]
+- **3. Parallel Subagents** - [why not chosen]
+
+**Execution options:**
+
+**1. Inline Execution**
+- Execute tasks directly in this session, following the plan task-by-task
+- Best for small plans, tightly coupled work, or situations where the controller should do the implementation directly
+
+**2. Subagent-Driven**
+- Dispatch one fresh subagent per task, execute tasks sequentially, and run one final review after all tasks are complete
+- Best default for multi-task plans where task isolation helps but parallel execution would add risk
+
+**3. Parallel Subagents**
+- Partition the plan into independent, non-conflicting waves, run one fresh subagent per task within each wave, then integrate and review the combined result
+- Best for plans with clear ownership, low coupling, and meaningful speedup from parallel work
+
+**Which approach do you want to use?**
+
+**If Inline Execution chosen:**
+- **REQUIRED SUB-SKILL:** Use superpowers:executing-plans
+- Direct execution in this session, following the plan task-by-task
 
 **If Subagent-Driven chosen:**
 - **REQUIRED SUB-SKILL:** Use superpowers:subagent-driven-development
 - Fresh subagent per task + implementer self-review per task + one final code review after all tasks
 
-**If Inline Execution chosen:**
-- **REQUIRED SUB-SKILL:** Use superpowers:executing-plans
-- Direct execution in this session, following the plan task-by-task
+**If Parallel Subagents chosen:**
+- **REQUIRED SUB-SKILL:** Use superpowers:parallel-subagent-execution
+- Partition the plan into dependency-safe waves
+- Assign explicit file ownership per task
+- Run one final code review after all waves are integrated

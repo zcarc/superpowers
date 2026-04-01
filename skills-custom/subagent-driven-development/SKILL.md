@@ -193,7 +193,7 @@ Done!
 - Start implementation on main/master branch without explicit user consent
 - Skip verification entirely
 - Proceed with unfixed issues
-- Dispatch multiple implementation subagents in parallel (conflicts)
+- Dispatch multiple implementation subagents in parallel in this workflow (use parallel-subagent-execution instead when the plan is safe for wave-based parallel work)
 - Make subagent read plan file (provide full text instead)
 - Skip scene-setting context (subagent needs to understand where task fits)
 - Ignore subagent questions (answer before letting them proceed)
@@ -226,4 +226,5 @@ Done!
 - **superpowers:test-driven-development** - Subagents follow TDD for each task
 
 **Alternative workflow:**
+- **superpowers:parallel-subagent-execution** - Use when the plan can be partitioned into independent, non-conflicting parallel waves
 - **superpowers:executing-plans** - Use for parallel session instead of same-session execution

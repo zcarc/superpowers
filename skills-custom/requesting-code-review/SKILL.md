@@ -13,6 +13,7 @@ Dispatch superpowers:code-reviewer subagent to catch issues before merge or hand
 
 **Mandatory:**
 - After all tasks in subagent-driven development
+- After all waves in parallel subagent execution
 - After completing major feature
 - Before merge to main
 
@@ -88,6 +89,11 @@ You: [Fix progress indicators]
 **Executing Plans:**
 - Review after a major batch if the change is risky or spans multiple tasks
 - Always request review before merge when the completed change set is substantial
+
+**Parallel Subagent Execution:**
+- Review once after all waves are integrated
+- Catch cross-wave integration issues before finishing the branch
+- Fix Important issues before merge or branch completion
 
 **Ad-Hoc Development:**
 - Review before merge
