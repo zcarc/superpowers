@@ -1,6 +1,6 @@
 ---
 name: finishing-a-development-branch
-description: 구현이 완료되고 모든 테스트가 통과했을 때, 작업 내용을 어떻게 통합할지 결정하는 데 사용 - 머지(Merge), PR 생성 또는 정리(Cleanup)를 위한 구조화된 옵션을 제시하여 개발 작업의 마무리를 안내함
+description: 사용자가 커밋, 머지, 푸시 또는 풀 리퀘스트 생성을 통해 완료된 작업을 통합하도록 명시적으로 요청할 때 사용
 ---
 
 # 개발 브랜치 마무리 (Finishing a Development Branch)
@@ -12,6 +12,16 @@ description: 구현이 완료되고 모든 테스트가 통과했을 때, 작업
 **핵심 원칙:** 테스트 검증 → 옵션 제시 → 선택 사항 실행 → 정리.
 
 **시작 시 공지:** "이 작업을 완료하기 위해 finishing-a-development-branch 기술을 사용하고 있습니다."
+
+## 사용 시기
+
+사용자가 다음을 통해 완료된 작업을 통합하도록 **명시적으로 요청하는 경우에만** 사용하십시오:
+- 커밋(committing)
+- 머지(merging)
+- 푸시(pushing)
+- PR 생성(creating a PR)
+
+단순히 구현이 완료되었다는 이유만으로 사용하지 마십시오.
 
 ## 프로세스
 
