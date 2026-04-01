@@ -25,8 +25,12 @@ Dispatch superpowers:code-reviewer subagent to catch issues before merge or hand
 
 **1. Get git SHAs:**
 ```bash
-BASE_SHA=$(git rev-parse HEAD~1)  # or origin/main
+# Default: review the full branch or completed task series
+BASE_SHA=$(git merge-base HEAD origin/main)  # or origin/master / actual base branch
 HEAD_SHA=$(git rev-parse HEAD)
+
+# Only for a single-commit spot check:
+# BASE_SHA=$(git rev-parse HEAD~1)
 ```
 
 **2. Dispatch code-reviewer subagent:**
@@ -53,7 +57,7 @@ Use Task tool with superpowers:code-reviewer type, fill template at `code-review
 
 You: Let me request a final code review before finishing this branch.
 
-BASE_SHA=$(git merge-base HEAD origin/main)  # or task-series starting SHA
+BASE_SHA=$(git merge-base HEAD origin/main)  # or the actual base branch / task-series starting SHA
 HEAD_SHA=$(git rev-parse HEAD)
 
 [Dispatch superpowers:code-reviewer subagent]
@@ -82,8 +86,8 @@ You: [Fix progress indicators]
 - Fix important issues before merge or branch completion
 
 **Executing Plans:**
-- Review after each batch (3 tasks)
-- Get feedback, apply, continue
+- Review after a major batch if the change is risky or spans multiple tasks
+- Always request review before merge when the completed change set is substantial
 
 **Ad-Hoc Development:**
 - Review before merge

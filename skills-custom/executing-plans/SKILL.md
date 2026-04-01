@@ -29,9 +29,16 @@ For each task:
 3. Run verifications as specified
 4. Mark as completed
 
-### Step 3: Complete Development
+### Step 3: Request Final Review
 
 After all tasks complete and verified:
+- Announce: "I'm using the requesting-code-review skill to review the completed implementation."
+- **REQUIRED SUB-SKILL:** Use superpowers:requesting-code-review
+- Review the implemented range and fix Important or Critical issues before proceeding
+
+### Step 4: Complete Development
+
+After review feedback is addressed:
 - Announce: "I'm using the finishing-a-development-branch skill to complete this work."
 - **REQUIRED SUB-SKILL:** Use superpowers:finishing-a-development-branch
 - Follow that skill to verify tests, present options, execute choice
@@ -67,4 +74,5 @@ After all tasks complete and verified:
 **Required workflow skills:**
 - **superpowers:using-git-worktrees** - REQUIRED: Set up isolated workspace before starting
 - **superpowers:writing-plans** - Creates the plan this skill executes
+- **superpowers:requesting-code-review** - Review the completed implementation before finishing the branch
 - **superpowers:finishing-a-development-branch** - Complete development after all tasks
