@@ -226,4 +226,5 @@ digraph process {
 - **superpowers:test-driven-development** - 서브에이전트는 각 작업에 대해 TDD를 따름
 
 **대안 워크플로우:**
+- **superpowers:parallel-subagent-execution** - 계획을 독립적이고 충돌 없는 병렬 웨이브로 나눌 수 있는 경우 사용
 - **superpowers:executing-plans** - 동일 세션 실행 대신 병렬 세션을 사용할 때 사용
