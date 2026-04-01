@@ -23,8 +23,8 @@ You MUST create a task for each of these items and complete them in order:
 
 1. **Explore project context** — check files, docs, recent commits
 2. **Offer visual companion** (if topic will involve visual questions) — this is its own message, not combined with a clarifying question. See the Visual Companion section below.
-3. **Ask clarifying questions** — one at a time, understand purpose/constraints/success criteria
-4. **Propose 2-3 approaches** — with trade-offs and your recommendation
+3. **Ask clarifying questions** — one at a time, understand purpose/constraints/success criteria until you can name the real decision to be made
+4. **Propose 2-3 approaches** — explain what each option means, how the outcome changes if chosen, why it is a candidate, and which option you recommend
 5. **Present design** — in sections scaled to their complexity, get user approval after each section
 6. **Self-review approved design** — quick inline check for placeholders, contradictions, ambiguity, and scope (see below)
 7. **Transition to implementation planning** — invoke writing-plans skill to create the implementation plan from the approved design and requirements
@@ -69,12 +69,27 @@ digraph brainstorming {
 - Prefer multiple choice questions when possible, but open-ended is fine too
 - Only one question per message - if a topic needs more exploration, break it into multiple questions
 - Focus on understanding: purpose, constraints, success criteria
+- During clarifying questions, do not force a recommendation unless the user is already choosing between concrete alternatives
+- If you offer multiple-choice answers during clarification, briefly explain what each option means so the user can answer accurately
+- Repeated back-and-forth questions are still part of clarification if the goal is to understand the user's intent rather than compare concrete solution directions
+
+**Exit criteria for clarification:**
+
+Move from clarifying questions to approaches when all of the following are true:
+
+- The primary user goal is clear enough to restate in one or two sentences
+- The main constraints or priorities are known
+- The decision space is narrow enough that 2-3 real approaches can be compared
+- Further questions would mostly refine solution choice rather than reveal intent
 
 **Exploring approaches:**
 
 - Propose 2-3 different approaches with trade-offs
 - Present options conversationally with your recommendation and reasoning
 - Lead with your recommended option and explain why
+- For each option, explain what the option is, how the result changes if the user chooses it, and why it is worth considering for the stated goals and constraints
+- Make recommendations conditionally and explicitly tie them to the user's stated priorities
+- If the user's goal is still unclear, ask another clarifying question instead of pretending the approaches are fully formed
 
 **Presenting the design:**
 
@@ -124,6 +139,9 @@ Fix any issues inline. No need to re-review — just fix and move on.
 
 - **One question at a time** - Don't overwhelm with multiple questions
 - **Multiple choice preferred** - Easier to answer than open-ended when possible
+- **Clarification before recommendation** - Do not present a strong recommendation until the user's goal and constraints are sufficiently clear
+- **Explain option meaning** - When presenting options, make sure the user can tell what each option means and why it differs from the others
+- **Explain outcome differences** - When proposing directions, state how the outcome changes depending on the chosen option
 - **YAGNI ruthlessly** - Remove unnecessary features from all designs
 - **Explore alternatives** - Always propose 2-3 approaches before settling
 - **Incremental validation** - Present design, get approval before moving on
