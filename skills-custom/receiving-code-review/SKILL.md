@@ -11,6 +11,16 @@ Code review requires technical evaluation, not emotional performance.
 
 **Core principle:** Verify before implementing. Ask before assuming. Technical correctness over social comfort.
 
+## Scope Restriction
+
+Use this skill only in the main agent when review feedback is received from:
+- the human partner
+- an external reviewer
+- a review subagent
+
+Do not use this skill inside a review-producing subagent.
+A review-producing subagent generates findings; it does not receive review.
+
 ## The Response Pattern
 
 ```

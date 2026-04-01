@@ -1,6 +1,6 @@
 ---
 name: finishing-a-development-branch
-description: Use when implementation is complete, all tests pass, and you need to decide how to integrate the work - guides completion of development work by presenting structured options for merge, PR, or cleanup
+description: Use when the user explicitly asks to integrate completed work by committing, merging, pushing, or creating a pull request
 ---
 
 # Finishing a Development Branch
@@ -12,6 +12,16 @@ Guide completion of development work by presenting clear options and handling ch
 **Core principle:** Verify tests → Present options → Execute choice → Clean up.
 
 **Announce at start:** "I'm using the finishing-a-development-branch skill to complete this work."
+
+## When to Use
+
+Use only when the user explicitly asks to integrate completed work by:
+- committing
+- merging
+- pushing
+- creating a PR
+
+Do not use merely because implementation is complete.
 
 ## The Process
 

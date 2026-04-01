@@ -18,6 +18,18 @@ Assume they are a skilled developer, but know almost nothing about our toolset o
 **Save plans to:** `docs/superpowers/plans/YYYY-MM-DD-<feature-name>.md`
 - (User preferences for plan location override this default)
 
+## Small-Scope Exception
+
+If the approved design is for a small, local change with clear files and clear acceptance criteria:
+- do not require a full saved plan document
+- provide a short inline execution checklist in the conversation instead
+
+Use a saved plan document when:
+- multiple subsystems are involved
+- task sequencing matters
+- handoff value is meaningful
+- the user explicitly wants a plan document
+
 ## Scope Check
 
 If the spec covers multiple independent subsystems, it should have been broken into sub-project specs during brainstorming. If it wasn't, suggest breaking this into separate plans — one per subsystem. Each plan should produce working, testable software on its own.
@@ -133,7 +145,7 @@ If you find issues, fix them inline. No need to re-review — just fix and move 
 
 ## Execution Handoff
 
-After saving the plan, analyze the plan and recommend the best execution mode before asking the user to choose.
+After saving the plan, or after writing the inline execution checklist for a small-scope task, analyze the work and recommend the best execution mode before asking the user to choose.
 
 Evaluate:
 - Task dependencies
@@ -162,6 +174,7 @@ Then present the recommendation in this format:
 **1. Inline Execution**
 - Execute tasks directly in this session, following the plan task-by-task
 - Best for small plans, tightly coupled work, or situations where the controller should do the implementation directly
+- Main-agent-first: do not assume subagent review or branch-finishing workflow will be used automatically
 
 **2. Subagent-Driven**
 - Dispatch one fresh subagent per task, execute tasks sequentially, and run one final review after all tasks are complete

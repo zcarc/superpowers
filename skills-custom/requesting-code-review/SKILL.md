@@ -1,6 +1,6 @@
 ---
 name: requesting-code-review
-description: Use when completing tasks, implementing major features, or before merging to verify work meets requirements
+description: Use when the user asks for review or a completed change crosses the review-risk threshold before integration
 ---
 
 # Requesting Code Review
@@ -21,6 +21,20 @@ Dispatch superpowers:code-reviewer subagent to catch issues before merge or hand
 - When stuck (fresh perspective)
 - Before refactoring (baseline check)
 - After fixing complex bug
+
+## Review Threshold
+
+Request review when one or more apply:
+- the user explicitly asks for review
+- 5 or more files changed
+- persistence, schema, or storage logic changed
+- shared abstractions or architecture changed
+- there is significant integration or regression risk
+
+Do not request review by default for:
+- small local bug fixes
+- isolated display or formatting changes
+- copy-only changes
 
 ## How to Request
 
@@ -87,6 +101,7 @@ You: [Fix progress indicators]
 - Fix important issues before merge or branch completion
 
 **Executing Plans:**
+- For Inline Execution, review is optional and risk-based
 - Review after a major batch if the change is risky or spans multiple tasks
 - Always request review before merge when the completed change set is substantial
 
@@ -106,6 +121,10 @@ You: [Fix progress indicators]
 - Ignore Critical issues
 - Proceed with unfixed Important issues
 - Argue with valid technical feedback
+
+**But also never:**
+- dispatch review automatically for every inline bugfix
+- treat review as mandatory for small local display or formatting fixes
 
 **If reviewer wrong:**
 - Push back with technical reasoning

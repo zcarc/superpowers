@@ -1,17 +1,17 @@
 ---
 name: executing-plans
-description: Use when you have a written implementation plan to execute directly in the current session, step by step, with final review before branch completion
+description: Use when you have a written implementation plan and want the main agent to execute it directly in the current session step by step
 ---
 
 # Executing Plans
 
 ## Overview
 
-Load plan, review critically, execute all tasks, report when complete.
+Load plan, review critically, execute all tasks, and report actual verified status when complete.
 
 **Announce at start:** "I'm using the executing-plans skill to implement this plan."
 
-**Note:** Tell your human partner that Superpowers works much better with access to subagents. If subagents are available and the plan would benefit from task isolation, prefer superpowers:subagent-driven-development or superpowers:parallel-subagent-execution.
+**Note:** Inline execution means the main agent implements and verifies the work directly in the current session. Do not assume subagents are part of the inline path.
 
 ## The Process
 
@@ -29,19 +29,28 @@ For each task:
 3. Run verifications as specified
 4. Mark as completed
 
-### Step 3: Request Final Review
+### Step 3: Optional Review Gate
 
-After all tasks complete and verified:
-- Announce: "I'm using the requesting-code-review skill to review the completed implementation."
-- **REQUIRED SUB-SKILL:** Use superpowers:requesting-code-review
-- Review the implemented range and fix Important or Critical issues before proceeding
+After all tasks complete and are verified:
+- For Inline Execution, do NOT automatically invoke requesting-code-review
+- Request review only when:
+  - the user explicitly asks for review
+  - the change crosses the review threshold defined by `superpowers:requesting-code-review`
+  - persistence, data model, or multi-surface integration risk is involved
+- If review is requested or justified by risk, announce: "I'm using the requesting-code-review skill to review the completed implementation."
+- Then use `superpowers:requesting-code-review` and address Important or Critical issues before proceeding
 
-### Step 4: Complete Development
+### Step 4: Integration Actions
 
-After review feedback is addressed:
+Do NOT invoke finishing-a-development-branch unless the user explicitly asks to:
+- commit
+- merge
+- push
+- create a PR
+
+If the user explicitly asks for one of those integration actions:
 - Announce: "I'm using the finishing-a-development-branch skill to complete this work."
-- **REQUIRED SUB-SKILL:** Use superpowers:finishing-a-development-branch
-- Follow that skill to verify tests, present options, execute choice
+- Then use `superpowers:finishing-a-development-branch`
 
 ## When to Stop and Ask for Help
 
@@ -74,5 +83,5 @@ After review feedback is addressed:
 **Required workflow skills:**
 - **superpowers:using-git-worktrees** - REQUIRED: Set up isolated workspace before starting
 - **superpowers:writing-plans** - Creates the plan this skill executes
-- **superpowers:requesting-code-review** - Review the completed implementation before finishing the branch
-- **superpowers:finishing-a-development-branch** - Complete development after all tasks
+- **superpowers:requesting-code-review** - Optional for inline execution; use when review is requested or risk justifies it
+- **superpowers:finishing-a-development-branch** - Use only for explicit integration actions
