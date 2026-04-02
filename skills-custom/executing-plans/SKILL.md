@@ -27,17 +27,17 @@ For each task:
 1. Mark as in_progress
 2. Follow each step exactly (plan has bite-sized steps)
 3. Run verifications as specified
-4. Mark as completed
+4. Do any local self-checks needed, but do not dispatch routine per-task formal review in this workflow
+5. Mark as completed
 
-### Step 3: Optional Review Gate
+### Step 3: Final Formal Review Gate
 
 After all tasks complete and are verified:
-- Request review only when:
-  - the user explicitly asks for review
-  - the change crosses the review threshold defined by `superpowers:requesting-code-review`
-  - persistence, data model, or multi-surface integration risk is involved
-- If review is requested or justified by risk, announce: "I'm using the requesting-code-review skill to review the completed implementation."
-- Then use `superpowers:requesting-code-review` and address Important or Critical issues before proceeding
+- Do not dispatch routine per-task formal reviews in this workflow
+- Announce: "I'm using the requesting-code-review skill to review the completed implementation."
+- Then use `superpowers:requesting-code-review` to review the completed integrated result
+- If it returns findings, use `superpowers:receiving-code-review` to evaluate them and address Important or Critical issues before proceeding
+- If it returns no actionable findings, proceed
 
 ### Step 4: Optional Integration Handoff
 
@@ -78,5 +78,6 @@ If the user explicitly asks for an integration action:
 **Required workflow skills:**
 - **superpowers:using-git-worktrees** - REQUIRED: Set up isolated workspace before starting
 - **superpowers:writing-plans** - Creates the plan this skill executes
-- **superpowers:requesting-code-review** - Optional; use when review is requested or risk justifies it
+- **superpowers:requesting-code-review** - REQUIRED: Final formal review of the completed integrated result
+- **superpowers:receiving-code-review** - Use when the final formal review returns feedback that needs evaluation
 - **superpowers:finishing-a-development-branch** - Use only for explicit integration actions

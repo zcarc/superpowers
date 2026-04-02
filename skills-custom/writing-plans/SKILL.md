@@ -7,9 +7,9 @@ description: Use when you have a spec or requirements for a multi-step task, bef
 
 ## Overview
 
-Write comprehensive implementation plans assuming the engineer has zero context for our codebase and questionable taste. Document everything they need to know: which files to touch for each task, code, testing, docs they might need to check, how to test it. Give them the whole plan as bite-sized tasks. DRY. YAGNI. TDD. Frequent commits.
+Write comprehensive implementation plans assuming the engineer has zero context for the codebase and questionable taste. Document everything they need to know: which files to touch for each task, code, testing, docs they might need to check, how to test it. Give them the whole plan as bite-sized tasks. DRY. YAGNI. TDD. Frequent commits.
 
-Assume they are a skilled developer, but know almost nothing about our toolset or problem domain. Assume they don't know good test design very well.
+Assume they are a skilled developer, but know almost nothing about the toolset or problem domain. Assume they don't know good test design very well.
 
 **Announce at start:** "I'm using the writing-plans skill to create the implementation plan."
 
@@ -143,6 +143,13 @@ After writing the complete plan, look at the spec with fresh eyes and check the 
 
 If you find issues, fix them inline. No need to re-review — just fix and move on. If you find a spec requirement with no task, add the task.
 
+## Review Terms
+
+- **Implementer self-review** - The task owner checks their own work before handoff. This is a local quality check, not a formal code review.
+- **Integration verification** - Tests or checks run after a task or wave is integrated to confirm the combined result still works. This is not a formal code review.
+- **Formal review** - Explicit use of `superpowers:requesting-code-review` against the completed integrated result. Default timing: once after all implementation tasks are complete and integration verification is done, not after every task.
+- `superpowers:receiving-code-review` applies only if a formal review actually returns feedback that needs evaluation.
+
 ## Execution Handoff
 
 If you saved a full plan document, analyze that plan and recommend the best execution mode before asking the user to choose.
@@ -174,17 +181,17 @@ Then present the recommendation in this format:
 **Execution modes:**
 
 - **Inline Execution**
-  - Execute tasks directly in this session, following the plan task-by-task
+  - Execute tasks directly in this session, following the plan task-by-task, then run one final formal review after all tasks are complete and verified
   - Best for small plans, tightly coupled work, or situations where the controller should do the implementation directly
   - Required execution skill: `superpowers:executing-plans`
 
 - **Subagent-Driven**
-  - Dispatch one fresh subagent per task, execute tasks sequentially, and run one final review after all tasks are complete
+  - Dispatch one fresh subagent per task, execute tasks sequentially, have each implementer self-review, then run one final formal review after all tasks are complete
   - Best default for multi-task plans where task isolation helps but parallel execution would add risk
   - Required execution skill: `superpowers:subagent-driven-development`
 
 - **Parallel Subagents**
-  - Partition the plan into independent, non-conflicting waves, run one fresh subagent per task within each wave, then integrate and review the combined result
+  - Partition the plan into independent, non-conflicting waves, run one fresh subagent per task within each wave, have each implementer self-review, verify each integrated wave, then run one final formal review after all waves are integrated
   - Best for plans with clear ownership, low coupling, and meaningful speedup from parallel work
   - Required execution skill: `superpowers:parallel-subagent-execution`
 
@@ -198,11 +205,14 @@ Mode-specific reminders:
 
 - **Inline Execution**
   - Direct execution in this session, following the plan task-by-task
+  - Formal review runs once after all tasks are complete
 
 - **Subagent-Driven**
-  - Fresh subagent per task + implementer self-review per task + one final code review after all tasks
+  - Fresh subagent per task + implementer self-review per task
+  - Formal review runs once after all tasks are complete
 
 - **Parallel Subagents**
   - Partition the plan into dependency-safe waves
   - Assign explicit file ownership per task
-- Run one final code review after all waves are integrated
+  - Verify each integrated wave before moving on
+  - Formal review runs once after all waves are integrated

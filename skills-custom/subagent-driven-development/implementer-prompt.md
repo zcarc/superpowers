@@ -73,6 +73,8 @@ Task tool (general-purpose):
 
     ## Before Reporting Back: Self-Review
 
+    This is a local implementer check, not the workflow's formal code review.
+
     Review your work with fresh eyes. Ask yourself:
 
     **Completeness:**

@@ -18,6 +18,8 @@ Task tool (general-purpose):
 
     ## File Ownership
 
+    File ownership means assigned file scope for this task, not OS or user permissions.
+
     You own only these files for this task:
     - [exact/path/one]
     - [exact/path/two]
@@ -60,6 +62,8 @@ Task tool (general-purpose):
     Work from: [directory]
 
     ## Self-Review
+
+    This is a local implementer check, not the workflow's formal review.
 
     Before reporting back, check:
     - Did I stay within my assigned file scope?

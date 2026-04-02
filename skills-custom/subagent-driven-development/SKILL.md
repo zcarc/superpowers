@@ -5,11 +5,18 @@ description: Use when the selected execution mode is sequential subagent-driven 
 
 # Subagent-Driven Development
 
-Execute a written implementation plan by dispatching a fresh subagent per task in sequence, then run one final review after the full implementation is complete.
+Execute a written implementation plan by dispatching a fresh subagent per task in sequence, then run one final formal review after the full implementation is complete.
 
 **Boundary:** This skill applies only after Subagent-Driven execution has been selected. If the selected mode is Inline Execution, use `superpowers:executing-plans`. If the selected mode is Parallel Subagents, use `superpowers:parallel-subagent-execution`.
 
-**Core principle:** Fresh subagent per task + final review at the end = fast iteration with one quality checkpoint
+**Core principle:** Fresh subagent per task + one final formal review at the end = fast iteration with one quality checkpoint
+
+## Review Boundaries
+
+- Implementer self-review happens inside each task. It is a local quality check, not the workflow's formal review.
+- Do not dispatch routine per-task formal reviews in this workflow.
+- Formal review means `superpowers:requesting-code-review` against the completed integrated result and runs once after all tasks are complete.
+- Use `superpowers:receiving-code-review` only if that final formal review returns feedback that needs evaluation.
 
 ## When to Use
 
@@ -45,7 +52,7 @@ digraph process {
 
     "Read plan, extract all tasks with full text, note context, create TodoWrite" [shape=box];
     "More tasks remain?" [shape=diamond];
-    "Dispatch final code reviewer subagent for entire implementation" [shape=box];
+    "Dispatch final formal code reviewer subagent for entire implementation" [shape=box];
 
     "Read plan, extract all tasks with full text, note context, create TodoWrite" -> "Dispatch implementer subagent (./implementer-prompt.md)";
     "Dispatch implementer subagent (./implementer-prompt.md)" -> "Implementer subagent asks questions?";
@@ -55,8 +62,8 @@ digraph process {
     "Implementer subagent implements, tests, commits, self-reviews" -> "Mark task complete in TodoWrite";
     "Mark task complete in TodoWrite" -> "More tasks remain?";
     "More tasks remain?" -> "Dispatch implementer subagent (./implementer-prompt.md)" [label="yes"];
-    "More tasks remain?" -> "Dispatch final code reviewer subagent for entire implementation" [label="no"];
-    "Dispatch final code reviewer subagent for entire implementation" -> "Explicit integration request?";
+    "More tasks remain?" -> "Dispatch final formal code reviewer subagent for entire implementation" [label="no"];
+    "Dispatch final formal code reviewer subagent for entire implementation" -> "Explicit integration request?";
     "Explicit integration request?" [shape=diamond];
     "Use superpowers:finishing-a-development-branch" [shape=box style=filled fillcolor=lightgreen];
     "Done" [shape=ellipse];
@@ -84,7 +91,7 @@ Use the least powerful model that can handle each role to conserve cost and incr
 
 Implementer subagents report one of four statuses. Handle each appropriately:
 
-**DONE:** Move to the next task, or to final review if all tasks are complete.
+**DONE:** Move to the next task, or to final formal review if all tasks are complete.
 
 **DONE_WITH_CONCERNS:** The implementer completed the work but flagged doubts. Read the concerns before proceeding. If the concerns are about correctness or scope, address them before moving on. If they're observations (e.g., "this file is getting large"), note them and proceed.
 
@@ -146,7 +153,7 @@ Implementer:
 ...
 
 [After all tasks]
-[Get git SHAs, dispatch final code-reviewer]
+[Get git SHAs, dispatch final formal code-reviewer]
 Final reviewer: Strengths: Good coverage, clean implementation. Issues: None. Ready for the next requested integration step.
 
 Done!
@@ -173,14 +180,14 @@ Done!
 
 **Quality gates:**
 - Self-review catches issues before handoff
-- Final review catches cross-task issues before merge
+- Final formal review catches cross-task issues before merge
 - Implementer questions surface ambiguity before work starts
 
 **Cost:**
 - More subagent invocations than inline execution
 - Controller does more prep work (extracting all tasks upfront)
 - Fewer review interruptions during implementation
-- Final review may find issues later, but iteration speed is higher
+- Final formal review may find issues later, but iteration speed is higher
 
 ## Red Flags
 
@@ -192,7 +199,7 @@ Done!
 - Make subagent read plan file (provide full text instead)
 - Skip scene-setting context (subagent needs to understand where task fits)
 - Ignore subagent questions (answer before letting them proceed)
-- Let implementer self-review replace final review when the implementation is risky
+- Treat implementer self-review as the workflow's formal review
 - Move to next task if the implementer flagged correctness doubts you have not addressed
 
 **If subagent asks questions:**
@@ -214,7 +221,8 @@ Done!
 **Required workflow skills:**
 - **superpowers:using-git-worktrees** - REQUIRED: Set up isolated workspace before starting
 - **superpowers:writing-plans** - Creates the plan this skill executes
-- **superpowers:requesting-code-review** - Code review template for reviewer subagents
+- **superpowers:requesting-code-review** - REQUIRED: Final formal review of the completed integrated result
+- **superpowers:receiving-code-review** - Use when the final formal review returns feedback that needs evaluation
 - **superpowers:finishing-a-development-branch** - Use only if the user explicitly requests an integration action
 
 **Subagents should use:**
