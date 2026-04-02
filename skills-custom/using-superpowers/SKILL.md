@@ -41,6 +41,9 @@ When a skill references platform-specific tool names, use OpenCode equivalents:
 - `TodoWrite` -> `todowrite`
 - `Read`, `Write`, `Edit`, `Bash` -> OpenCode native tools
 - If a skill mentions a tool OpenCode does not expose directly, adapt the workflow to the closest OpenCode-native mechanism instead of copying the name literally.
+- When a skill says to ask, clarify, confirm, or get approval from the user, do so in a normal assistant message by default.
+- Do not use the `question` tool unless the user explicitly asks for structured selectable options or a higher-priority instruction explicitly requires it.
+- A skill telling you to "ask a question" does not by itself authorize use of the `question` tool.
 
 # Using Skills
 
