@@ -9,6 +9,8 @@ Execute a written implementation plan by dispatching a fresh subagent per task i
 
 **Boundary:** This skill applies only after Subagent-Driven execution has been selected. If the selected mode is Inline Execution, use `superpowers:executing-plans`. If the selected mode is Parallel Subagents, use `superpowers:parallel-subagent-execution`.
 
+**Lane:** This workflow is Full Lane only. If the work is small and local, use main-agent inline execution instead.
+
 **Core principle:** Fresh subagent per task + one final formal review at the end = fast iteration with one quality checkpoint
 
 ## Review Boundaries

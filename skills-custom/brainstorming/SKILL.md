@@ -1,6 +1,6 @@
 ---
 name: brainstorming
-description: "You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design before implementation."
+description: Use when Full Lane creative or behavior-changing work needs collaborative design before implementation, or when the user explicitly asks to brainstorm
 ---
 
 # Brainstorming Ideas Into Designs
@@ -9,13 +9,30 @@ Help turn ideas into fully formed designs and implementation-ready requirements 
 
 Start by understanding the current project context, then ask questions one at a time to refine the idea. Once you understand what you're building, present the design and get user approval.
 
+## Boundary
+
+This skill is for Full Lane work or for cases where the user explicitly wants brainstorming help.
+
+For Light Lane work, do not invoke this skill by default. Use a brief inline design summary in the main conversation instead.
+
+<PRECONDITION>
+In the main session, `using-superpowers` should already have been invoked before this skill.
+If this is the main session and it has not been invoked, stop and invoke `using-superpowers` first.
+If this is a dispatched subagent, follow `using-superpowers`'s subagent rule and do not invoke it here.
+</PRECONDITION>
+
 <HARD-GATE>
-Do NOT invoke any implementation skill, write any code, scaffold any project, or take any implementation action until you have presented a design and the user has approved it. This applies to EVERY project regardless of perceived simplicity.
+Do NOT invoke any implementation skill, write any code, scaffold any project, or take any implementation action until you have presented a design and the user has approved it when this skill is invoked.
+
+Light Lane work may use the abbreviated inline design path defined by `using-superpowers` without invoking this full brainstorming workflow.
 </HARD-GATE>
 
-## Anti-Pattern: "This Is Too Simple To Need A Design"
+## Anti-Pattern: Invoking Full Brainstorming For Obviously Light Work
 
-Every project goes through this process. A todo list, a single-function utility, a config change — all of them. "Simple" projects are where unexamined assumptions cause the most wasted work. The design can be short (a few sentences for truly simple projects), but you MUST present it and get approval.
+The problem is not skipping design entirely; the problem is skipping thinking.
+
+For Light Lane work, the design can stay inline and brief.
+For Full Lane work, this full brainstorming workflow still applies.
 
 ## Checklist
 

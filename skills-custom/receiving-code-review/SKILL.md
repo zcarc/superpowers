@@ -16,7 +16,7 @@ Code review requires technical evaluation, not emotional performance.
 Use this skill only in the main agent when review feedback is received from:
 - the human partner
 - an external reviewer
-- a review subagent
+- a review subagent such as `code-reviewer` or `code-reviewer-light`
 
 Do not use this skill inside a review-producing subagent.
 A review-producing subagent generates findings; it does not receive review.
@@ -24,7 +24,7 @@ A review-producing subagent generates findings; it does not receive review.
 Use this skill only when review feedback actually exists and needs technical evaluation.
 
 - If no review feedback exists, do not invoke it.
-- If a formal review returns no actionable findings, no separate reception step is needed.
+- If a light or formal review returns no actionable findings, no separate reception step is needed.
 - If a human partner, external reviewer, or review subagent provides findings that need verification, this skill applies.
 
 ## The Response Pattern

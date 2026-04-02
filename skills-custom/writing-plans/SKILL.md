@@ -13,7 +13,7 @@ Assume they are a skilled developer, but know almost nothing about the toolset o
 
 **Announce at start:** "I'm using the writing-plans skill to create the implementation plan."
 
-**Context:** This should be run in a dedicated worktree (created by brainstorming skill).
+**Context:** Full Lane planning should run in a dedicated worktree. Light Lane work may stay in the current workspace when appropriate.
 
 **Save plans to:** `docs/superpowers/plans/YYYY-MM-DD-<feature-name>.md`
 - (User preferences for plan location override this default)
@@ -22,13 +22,26 @@ Assume they are a skilled developer, but know almost nothing about the toolset o
 
 If the approved design is for a small, local change with clear files and clear acceptance criteria:
 - do not require a full saved plan document
-- provide a short lightweight checklist in the conversation instead
+- create a short lightweight tracked task list for the implementation
+- present the same task list inline in the conversation instead
 
 Use a saved plan document when:
 - multiple subsystems are involved
 - task sequencing matters
 - handoff value is meaningful
 - the user explicitly wants a plan document
+
+## Lane-Aware Planning
+
+If Light Lane has already been selected:
+- keep planning inline by default
+- use the Small-Scope Exception unless the work has already escalated
+- do not present the three-mode execution chooser
+- recommend Inline Execution implicitly unless there is a concrete reason to escalate
+
+If Full Lane has already been selected:
+- use the normal saved-plan flow
+- present execution mode choice only when the choice meaningfully affects cost or safety
 
 ## Scope Check
 
@@ -147,14 +160,16 @@ If you find issues, fix them inline. No need to re-review — just fix and move 
 
 - **Implementer self-review** - The task owner checks their own work before handoff. This is a local quality check, not a formal code review.
 - **Integration verification** - Tests or checks run after a task or wave is integrated to confirm the combined result still works. This is not a formal code review.
-- **Formal review** - Explicit use of `superpowers:requesting-code-review` against the completed integrated result. Default timing: once after all implementation tasks are complete and integration verification is done, not after every task.
+- **Formal review** - Explicit use of `superpowers:requesting-code-review` against the completed integrated result. Default timing: required for Full Lane work, and optional for Light Lane work unless review is explicitly requested or thresholds are triggered.
 - `superpowers:receiving-code-review` applies only if a formal review actually returns feedback that needs evaluation.
 
 ## Execution Handoff
 
-If you saved a full plan document, analyze that plan and recommend the best execution mode before asking the user to choose.
+If Light Lane has already been selected, do not present the three-mode execution chooser. Treat the inline task list or saved plan as an Inline Execution artifact unless the work has already escalated.
 
-If you wrote a small-scope checklist in the conversation instead, treat that checklist as the planning artifact and recommend the best execution mode separately. The checklist format does not by itself select Inline Execution, though small-scope work will usually fit Inline Execution unless task isolation or parallelism clearly provides more value.
+If Full Lane has already been selected and you saved a full plan document, analyze that plan and recommend the best execution mode before asking the user to choose.
+
+If Full Lane has already been selected and you created a small-scope tracked task list, treat that task list as the planning artifact and recommend the best execution mode separately.
 
 Evaluate:
 - Task dependencies
@@ -181,18 +196,18 @@ Then present the recommendation in this format:
 **Execution modes:**
 
 - **Inline Execution**
-  - Execute tasks directly in this session, following the plan task-by-task, then run one final formal review after all tasks are complete and verified
+  - Execute tasks directly in this session, following the plan task-by-task, then finish according to lane-aware review rules
   - Best for small plans, tightly coupled work, or situations where the controller should do the implementation directly
   - Required execution skill: `superpowers:executing-plans`
 
 - **Subagent-Driven**
   - Dispatch one fresh subagent per task, execute tasks sequentially, have each implementer self-review, then run one final formal review after all tasks are complete
-  - Best default for multi-task plans where task isolation helps but parallel execution would add risk
+  - Best default for Full Lane multi-task plans where task isolation helps but parallel execution would add risk
   - Required execution skill: `superpowers:subagent-driven-development`
 
 - **Parallel Subagents**
   - Partition the plan into independent, non-conflicting waves, run one fresh subagent per task within each wave, have each implementer self-review, verify each integrated wave, then run one final formal review after all waves are integrated
-  - Best for plans with clear ownership, low coupling, and meaningful speedup from parallel work
+  - Best for Full Lane plans with clear ownership, low coupling, and meaningful speedup from parallel work
   - Required execution skill: `superpowers:parallel-subagent-execution`
 
 **Which execution mode do you want to use?**
@@ -205,7 +220,7 @@ Mode-specific reminders:
 
 - **Inline Execution**
   - Direct execution in this session, following the plan task-by-task
-  - Formal review runs once after all tasks are complete
+  - Review behavior depends on lane: Light Lane can finish with focused verification and local self-check, while Full Lane runs final formal review after all tasks are complete
 
 - **Subagent-Driven**
   - Fresh subagent per task + implementer self-review per task

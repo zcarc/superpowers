@@ -11,6 +11,8 @@ Execute a written implementation plan by grouping safe tasks into parallel waves
 
 **Boundary:** This skill applies only after Parallel Subagents has been selected. If the selected mode is Inline Execution, use `superpowers:executing-plans`. If the selected mode is sequential Subagent-Driven execution, use `superpowers:subagent-driven-development`.
 
+**Lane:** This workflow is Full Lane only. If the work is small and local, do not use parallel subagents.
+
 **Isolation rule:** Each parallel task must run on its own dedicated branch and its own dedicated worktree. Do not share branches or worktrees across parallel implementers.
 
 ## When to Use

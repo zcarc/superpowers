@@ -1,22 +1,21 @@
 ---
 name: requesting-code-review
-description: Use when a completed integrated change set needs formal review before integration or handoff
+description: Use when a completed change set needs review before integration or handoff
 ---
 
 # Requesting Code Review
 
-Dispatch superpowers:code-reviewer subagent to catch issues in the completed integrated result before merge or handoff. The reviewer gets precisely crafted context for evaluation — never your session's history. This keeps the reviewer focused on the work product, not your thought process, and preserves your own context for continued work.
+Dispatch a review subagent (`superpowers:code-reviewer-light` or `superpowers:code-reviewer`) to catch issues before merge or handoff. The reviewer gets precisely crafted context for evaluation — never your session's history. This keeps the reviewer focused on the work product, not your thought process, and preserves your own context for continued work.
 
 **Core principle:** Review the completed integrated result at meaningful checkpoints, not every task by default.
 
 ## When to Request Review
 
-**Mandatory:**
-- After all tasks in executing-plans
+**Required for Deep Formal Review:**
+- After Full Lane work in `executing-plans`
 - After all tasks in subagent-driven development
 - After all waves in parallel subagent execution
-- After completing major feature
-- Before merge to main
+- Before merge when Full Lane review triggers apply
 
 **Optional but valuable:**
 - When stuck (fresh perspective)
@@ -27,9 +26,9 @@ Routine per-task formal review is not the default workflow.
 
 ## Review Timing
 
-- Standard workflow timing: request formal review once after all implementation tasks are complete and the integrated result has been verified.
+- Standard Deep Formal Review timing: request review once after all implementation tasks are complete and the integrated result has been verified.
 - Review the completed branch or task series after integration — not a routine per-task checkpoint.
-- Use `superpowers:receiving-code-review` only if the review returns feedback that needs technical evaluation.
+- Use `superpowers:receiving-code-review` only if a light or deep review returns feedback that needs technical evaluation.
 
 ## Review Threshold
 
@@ -45,6 +44,24 @@ Do not request review by default for:
 - isolated display or formatting changes
 - copy-only changes
 
+## Review Lanes
+
+- **Light Review** - for small, local, low-risk changes when review is useful but a deep formal review is unnecessary
+- **Deep Formal Review** - for Full Lane work and for changes with architecture, contract, persistence, or meaningful regression risk
+
+## Reviewer Selection
+
+Use `superpowers:code-reviewer-light` when all of the following are true:
+- the review scope is 1-2 files or one narrow local area
+- the change does not touch persistence, auth, migrations, or shared contracts
+- the goal is local correctness, requirement match, and touched-test sufficiency
+
+Use `superpowers:code-reviewer` when any of the following are true:
+- the work is Full Lane
+- the review scope spans multiple files or an integrated task series
+- architecture, shared abstractions, public contracts, persistence, auth, or migration behavior changed
+- the user explicitly asks for a formal review
+
 ## How to Request
 
 **1. Get git SHAs:**
@@ -57,9 +74,10 @@ HEAD_SHA=$(git rev-parse HEAD)
 # BASE_SHA=$(git rev-parse HEAD~1)
 ```
 
-**2. Dispatch code-reviewer subagent:**
+**2. Select and dispatch the review agent:**
 
-Use Task tool with superpowers:code-reviewer type, fill template at `code-reviewer.md`
+- Use Task tool with `superpowers:code-reviewer-light` for Light Review and fill template at `code-reviewer-light.md`
+- Use Task tool with `superpowers:code-reviewer` for Deep Formal Review and fill template at `code-reviewer.md`
 
 **Placeholders:**
 - `{WHAT_WAS_IMPLEMENTED}` - What you just built
@@ -111,9 +129,9 @@ You: [Fix progress indicators]
 - Fix important issues before merge or branch completion
 
 **Executing Plans:**
-- Review once after all tasks are complete
-- Review the completed integrated result, not each task individually
-- Fix Important issues before merge or branch completion
+- Review after all tasks are complete when the work is Full Lane or review thresholds are triggered
+- Use `code-reviewer-light` for narrow local reviews and `code-reviewer` for deep formal reviews
+- Do not dispatch deep formal review by default for Light Lane work
 
 **Parallel Subagent Execution:**
 - Review once after all waves are integrated
@@ -127,7 +145,7 @@ You: [Fix progress indicators]
 ## Red Flags
 
 **Never:**
-- Skip a workflow's required final formal review because "it's simple"
+- Skip a required Full Lane formal review because "it's simple"
 - Ignore Critical issues
 - Proceed with unfixed Important issues
 - Argue with valid technical feedback
@@ -142,4 +160,4 @@ You: [Fix progress indicators]
 - Show code/tests that prove it works
 - Request clarification
 
-See template at: requesting-code-review/code-reviewer.md
+See templates at: `requesting-code-review/code-reviewer.md` and `requesting-code-review/code-reviewer-light.md`

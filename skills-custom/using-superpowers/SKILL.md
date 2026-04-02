@@ -1,6 +1,6 @@
 ---
 name: using-superpowers
-description: Use when starting any conversation in OpenCode - establishes how to find and use skills, requiring the native skill tool before any response or action
+description: Use when starting any conversation in OpenCode - establishes lane-aware skill usage, with strict skill-first behavior for Full Lane work and an inline path for clearly local, low-risk tasks
 ---
 
 <SUBAGENT-STOP>
@@ -8,11 +8,13 @@ If you were dispatched as a subagent to execute a specific task, skip this skill
 </SUBAGENT-STOP>
 
 <EXTREMELY-IMPORTANT>
-If you think there is even a 1% chance a skill might apply to what you are doing, you ABSOLUTELY MUST invoke the skill.
+If the work is Full Lane and you think there is even a 1% chance a skill might apply, you ABSOLUTELY MUST invoke the skill.
 
-IF A SKILL APPLIES TO YOUR TASK, YOU DO NOT HAVE A CHOICE. YOU MUST USE IT.
+IF A SKILL APPLIES TO A FULL LANE TASK, YOU DO NOT HAVE A CHOICE. YOU MUST USE IT.
 
-This is not negotiable. This is not optional. You cannot rationalize your way out of this.
+If the work clearly qualifies for the Light Lane inline path, you may proceed without forcing a full workflow-skill chain.
+
+Do not rationalize a Full Lane task into Light Lane just to skip the skill.
 </EXTREMELY-IMPORTANT>
 
 ## Instruction Priority
@@ -49,11 +51,14 @@ When a skill references platform-specific tool names, use OpenCode equivalents:
 
 ## The Rule
 
-**Invoke relevant or requested skills BEFORE any response or action.** Even a 1% chance a skill might apply means that you should invoke the skill to check. If an invoked skill turns out to be wrong for the situation, you don't need to use it.
+**Invoke relevant or requested skills BEFORE any response or action** for Full Lane work.
+
+For clearly local, low-risk Light Lane work in this custom fork, the agent may proceed with direct action or a brief inline design check instead of forcing a full workflow-skill chain. If the work stops being clearly local and low-risk, escalate to Full Lane immediately.
 
 ```dot
 digraph skill_flow {
     "User message received" [shape=doublecircle];
+    "Light Lane?" [shape=diamond];
     "Already brainstormed?" [shape=diamond];
     "Invoke brainstorming skill" [shape=box];
     "Might any skill apply?" [shape=diamond];
@@ -68,7 +73,9 @@ digraph skill_flow {
     "Already brainstormed?" -> "Might any skill apply?" [label="yes"];
     "Invoke brainstorming skill" -> "Might any skill apply?";
 
-    "User message received" -> "Might any skill apply?";
+    "User message received" -> "Light Lane?";
+    "Light Lane?" -> "Respond (including clarifications)" [label="yes - direct action or inline design"];
+    "Light Lane?" -> "Might any skill apply?" [label="no - Full Lane"];
     "Might any skill apply?" -> "Invoke skill" [label="yes, even 1%"];
     "Might any skill apply?" -> "Respond (including clarifications)" [label="definitely not"];
     "Invoke skill" -> "Announce: 'Using [skill] to [purpose]'";
@@ -81,20 +88,20 @@ digraph skill_flow {
 
 ## Red Flags
 
-These thoughts mean STOP—you're rationalizing:
+These thoughts mean STOP unless the work clearly qualifies for the Light Lane inline path:
 
 | Thought | Reality |
 |---------|---------|
-| "This is just a simple question" | Questions are tasks. Check for skills. |
+| "This is just a simple question" | If it is truly Light Lane, handle it directly. Otherwise check for skills. |
 | "I need more context first" | Skill check comes BEFORE clarifying questions. |
 | "Let me explore the codebase first" | Skills tell you HOW to explore. Check first. |
 | "I can check git/files quickly" | Files lack conversation context. Check for skills. |
 | "Let me gather information first" | Skills tell you HOW to gather information. |
-| "This doesn't need a formal skill" | If a skill exists, use it. |
+| "This doesn't need a formal skill" | If it is truly Light Lane, use the inline path. Otherwise use the skill. |
 | "I remember this skill" | Skills evolve. Read current version. |
 | "This doesn't count as a task" | Action = task. Check for skills. |
-| "The skill is overkill" | Simple things become complex. Use it. |
-| "I'll just do this one thing first" | Check BEFORE doing anything. |
+| "The skill is overkill" | If the work is truly Light Lane, use the inline path. Otherwise use the skill. |
+| "I'll just do this one thing first" | If it is truly Light Lane, direct action is fine. Otherwise check before acting. |
 | "This feels productive" | Undisciplined action wastes time. Skills prevent this. |
 | "I know what that means" | Knowing the concept ≠ using the skill. Invoke it. |
 
@@ -105,8 +112,8 @@ When multiple skills could apply, use this order:
 1. **Process skills first** (brainstorming, debugging) - these determine HOW to approach the task
 2. **Implementation skills second** (frontend-design, mcp-builder) - these guide execution
 
-"Let's build X" → brainstorming first, then implementation skills.
-"Fix this bug" → debugging first, then domain-specific skills.
+"Let's build X" → brainstorming first for Full Lane work, unless the work clearly qualifies for the Light Lane inline design path.
+"Fix this bug" → debugging first for real bugs, then domain-specific skills if the work is not safely handled in Light Lane.
 
 ## Skill Types
 
@@ -119,3 +126,34 @@ The skill itself tells you which.
 ## User Instructions
 
 Instructions say WHAT, not HOW. "Add X" or "Fix Y" doesn't mean skip workflows.
+
+## Personal Workflow Profiles
+
+This custom fork supports two workflow lanes.
+
+### Light Lane
+
+Use Light Lane when all of the following are true:
+- the change is small and local
+- the requirement is explicit, or can be clarified in 1-2 questions
+- the expected write scope is 1-2 files or one narrow local area
+- there is no schema, persistence, auth, deployment, or shared-contract change
+- regression risk is low
+- the user did not explicitly ask for formal review
+
+For Light Lane work:
+- direct action is allowed
+- a brief inline design check is allowed
+- do not force a full workflow-skill chain by default
+- escalate to Full Lane if scope or risk grows
+
+### Full Lane
+
+Use Full Lane when any of the following are true:
+- multiple subsystems or broad file overlap are involved
+- shared abstractions, public contracts, architecture, persistence, auth, or migration behavior change
+- requirements are ambiguous enough to affect design
+- integration or regression risk is meaningful
+- the user explicitly asks for formal review
+
+For Full Lane work, the normal skill-first workflow discipline remains in effect.

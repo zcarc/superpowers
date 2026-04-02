@@ -30,14 +30,20 @@ For each task:
 4. Do any local self-checks needed, but do not dispatch routine per-task formal review in this workflow
 5. Mark as completed
 
-### Step 3: Final Formal Review Gate
+### Step 3: Finish According To Lane
 
 After all tasks complete and are verified:
-- Do not dispatch routine per-task formal reviews in this workflow
-- Announce: "I'm using the requesting-code-review skill to review the completed implementation."
-- Then use `superpowers:requesting-code-review` to review the completed integrated result
-- If it returns findings, use `superpowers:receiving-code-review` to evaluate them and address Important or Critical issues before proceeding
-- If it returns no actionable findings, proceed
+
+- If this work is Light Lane and no review trigger fired:
+  - do a final local self-check
+  - summarize the verification evidence
+  - proceed without formal review
+
+- If this work is Full Lane, or if review was explicitly requested, or if review thresholds were triggered:
+  - announce: "I'm using the requesting-code-review skill to review the completed implementation."
+  - then use `superpowers:requesting-code-review` to review the completed integrated result
+  - if it returns findings, use `superpowers:receiving-code-review` to evaluate them and address Important or Critical issues before proceeding
+  - if it returns no actionable findings, proceed
 
 ### Step 4: Optional Integration Handoff
 
@@ -78,6 +84,6 @@ If the user explicitly asks for an integration action:
 **Required workflow skills:**
 - **superpowers:using-git-worktrees** - REQUIRED: Set up isolated workspace before starting
 - **superpowers:writing-plans** - Creates the plan this skill executes
-- **superpowers:requesting-code-review** - REQUIRED: Final formal review of the completed integrated result
-- **superpowers:receiving-code-review** - Use when the final formal review returns feedback that needs evaluation
+- **superpowers:requesting-code-review** - Use for Full Lane work or when review thresholds are triggered
+- **superpowers:receiving-code-review** - Use when a light or deep review returns feedback that needs evaluation
 - **superpowers:finishing-a-development-branch** - Use only for explicit integration actions
