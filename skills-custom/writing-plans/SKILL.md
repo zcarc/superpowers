@@ -22,7 +22,7 @@ Assume they are a skilled developer, but know almost nothing about our toolset o
 
 If the approved design is for a small, local change with clear files and clear acceptance criteria:
 - do not require a full saved plan document
-- provide a short inline execution checklist in the conversation instead
+- provide a short lightweight checklist in the conversation instead
 
 Use a saved plan document when:
 - multiple subsystems are involved
@@ -147,7 +147,7 @@ If you find issues, fix them inline. No need to re-review — just fix and move 
 
 If you saved a full plan document, analyze that plan and recommend the best execution mode before asking the user to choose.
 
-If you wrote a small-scope inline execution checklist instead, treat that checklist as the planning artifact and then recommend the best execution mode for that work. The checklist does not force inline execution by itself; it is just the lightweight planning input.
+If you wrote a small-scope checklist in the conversation instead, treat that checklist as the planning artifact and recommend the best execution mode separately. The checklist format does not by itself select Inline Execution, though small-scope work will usually fit Inline Execution unless task isolation or parallelism clearly provides more value.
 
 Evaluate:
 - Task dependencies
