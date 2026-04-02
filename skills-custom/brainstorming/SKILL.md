@@ -1,6 +1,6 @@
 ---
 name: brainstorming
-description: Use when behavior-changing work needs collaborative design before implementation except for clearly local low-risk changes, or any time the user explicitly asks to brainstorm
+description: "You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design before implementation."
 ---
 
 # Brainstorming Ideas Into Designs
