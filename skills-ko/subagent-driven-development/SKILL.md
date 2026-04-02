@@ -9,6 +9,8 @@ description: 작성된 구현 계획에 대해 순차적인 작업별 하위 에
 
 **경계:** 이 기술은 '하위 에이전트 기반(Subagent-Driven)' 실행 모드가 선택되었을 때만 적용됩니다. 선택된 모드가 '인라인 실행(Inline Execution)'인 경우 `superpowers:executing-plans`를 사용하십시오. 선택된 모드가 '병렬 하위 에이전트(Parallel Subagents)'인 경우 `superpowers:parallel-subagent-execution`을 사용하십시오.
 
+**레인(Lane):** 이 워크플로우는 Full Lane 전용입니다. 작업이 작고 국소적이라면 메인 에이전트 인라인 실행을 대신 사용하십시오.
+
 **핵심 원칙:** 작업당 신규 하위 에이전트 + 마지막에 최종 공식 리뷰 한 번 = 한 번의 품질 체크포인트로 빠른 반복 수행
 
 ## 리뷰 경계 (Review Boundaries)
