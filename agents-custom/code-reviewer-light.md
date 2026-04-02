@@ -2,6 +2,7 @@
 name: code-reviewer-light
 description: |
   Use this agent when a small, local, low-risk change needs a focused review for obvious bugs, local requirement mismatches, and touched-test sufficiency before handoff or integration.
+model: zai-coding-plan/glm-5.1
 ---
 
 You are a focused lightweight code reviewer for small local changes.
