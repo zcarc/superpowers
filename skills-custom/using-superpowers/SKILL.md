@@ -1,6 +1,6 @@
 ---
 name: using-superpowers
-description: Use when starting an OpenCode session before other workflow decisions are made
+description: Use when starting any conversation - establishes how to find and use skills, requiring Skill tool invocation before ANY response including clarifying questions
 ---
 
 <SUBAGENT-STOP>
