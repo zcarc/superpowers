@@ -1,10 +1,13 @@
 ---
 name: using-superpowers
-description: Use when starting any conversation in OpenCode - establishes lane-aware skill usage, with strict skill-first behavior for Full Lane work and an inline path for clearly local, low-risk tasks
+description: Use when starting an OpenCode session before other workflow decisions are made
 ---
 
 <SUBAGENT-STOP>
-If you were dispatched as a subagent to execute a specific task, skip this skill.
+If you were dispatched as a subagent to execute a specific task, skip this bootstrap skill.
+
+This does not block task-specific skills that your task explicitly requires.
+Do not re-run workflow bootstrap inside dispatched subagents.
 </SUBAGENT-STOP>
 
 <EXTREMELY-IMPORTANT>
@@ -50,6 +53,8 @@ When a skill references platform-specific tool names, use OpenCode equivalents:
 # Using Skills
 
 ## The Rule
+
+Lane selection happens inside this skill. Do not assume Light Lane or Full Lane before reading it.
 
 **Invoke relevant or requested skills BEFORE any response or action** for Full Lane work.
 

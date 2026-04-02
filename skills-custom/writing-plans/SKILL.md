@@ -33,6 +33,8 @@ Use a saved plan document when:
 
 ## Lane-Aware Planning
 
+This skill assumes lane selection has already been made by `using-superpowers`.
+
 If Light Lane has already been selected:
 - keep planning inline by default
 - use the Small-Scope Exception unless the work has already escalated
@@ -74,7 +76,7 @@ This structure informs the task decomposition. Each task should produce self-con
 ```markdown
 # [Feature Name] Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Choose the execution mode that best fits this plan: superpowers:executing-plans, superpowers:subagent-driven-development, or superpowers:parallel-subagent-execution. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: If execution-mode choice matters, choose the appropriate execution skill. Light Lane defaults to inline execution unless the work escalates. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** [One sentence describing what this builds]
 

@@ -9,6 +9,13 @@ Dispatch a review subagent (`superpowers:code-reviewer-light` or `superpowers:co
 
 **Core principle:** Review the completed integrated result at meaningful checkpoints, not every task by default.
 
+## Boundary
+
+This skill is for the main agent or another coordinating agent coordinating review.
+Do not invoke this skill from a review-producing subagent.
+Review-producing subagents should return findings, not orchestrate further review.
+Main or coordinating agents may choose light or deep review based on scope and risk.
+
 ## When to Request Review
 
 **Required for Deep Formal Review:**
@@ -119,6 +126,24 @@ HEAD_SHA=$(git rev-parse HEAD)
 
 You: [Fix progress indicators]
 [Re-request review if needed, then finish the branch]
+```
+
+## Lightweight Review Example
+
+```
+[Small local bug fix completed]
+
+You: Let me request a lightweight review before I move on.
+
+BASE_SHA=$(git rev-parse HEAD~1)
+HEAD_SHA=$(git rev-parse HEAD)
+
+[Dispatch superpowers:code-reviewer-light subagent]
+  WHAT_WAS_IMPLEMENTED: Small local bug fix in a single module
+  PLAN_REFERENCE: Inline task description from the conversation
+  BASE_SHA: 91ac2d1
+  HEAD_SHA: a47d220
+  DESCRIPTION: Fixed incorrect empty-state rendering for one component
 ```
 
 ## Integration with Workflows

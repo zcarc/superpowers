@@ -1,6 +1,6 @@
 ---
 name: brainstorming
-description: Use when Full Lane creative or behavior-changing work needs collaborative design before implementation, or when the user explicitly asks to brainstorm
+description: Use when behavior-changing work needs collaborative design before implementation except for clearly local low-risk changes, or any time the user explicitly asks to brainstorm
 ---
 
 # Brainstorming Ideas Into Designs

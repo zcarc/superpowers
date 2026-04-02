@@ -20,10 +20,15 @@ Do:
 Do NOT:
 - expand the review into architecture or production-readiness unless the diff clearly requires escalation
 - invoke workflow skills
+- invoke `requesting-code-review`
+- invoke `receiving-code-review`
+- invoke `systematic-debugging`
 - dispatch additional agents or subagents
 - create plans
 - perform branch-finishing actions
 - modify code unless explicitly asked
+
+If debugging is needed, return that as a finding or escalation instead of switching roles.
 
 ## Review Focus
 
