@@ -5,15 +5,10 @@ description: "You MUST use this before any creative work - creating features, bu
 
 # Brainstorming Ideas Into Designs
 
-Help turn ideas into fully formed designs and implementation-ready requirements through natural collaborative dialogue.
+Help turn ideas into fully formed designs and specs through natural collaborative dialogue.
 
 Start by understanding the current project context, then ask questions one at a time to refine the idea. Once you understand what you're building, present the design and get user approval.
 
-## Boundary
-
-This skill is for Full Lane work or for cases where the user explicitly wants brainstorming help.
-
-For Light Lane work, do not invoke this skill by default. Use a brief inline design summary in the main conversation instead.
 
 <PRECONDITION>
 In the main session, `using-superpowers` should already have been invoked before this skill.
@@ -22,17 +17,12 @@ If this is a dispatched subagent, follow `using-superpowers`'s subagent rule and
 </PRECONDITION>
 
 <HARD-GATE>
-Do NOT invoke any implementation skill, write any code, scaffold any project, or take any implementation action until you have presented a design and the user has approved it when this skill is invoked.
-
-Light Lane work may use the abbreviated inline design path defined by `using-superpowers` without invoking this full brainstorming workflow.
+Do NOT invoke any implementation skill, write any code, scaffold any project, or take any implementation action until you have presented a design and the user has approved it. This applies to EVERY project regardless of perceived simplicity.
 </HARD-GATE>
 
-## Anti-Pattern: Invoking Full Brainstorming For Obviously Light Work
+## Anti-Pattern: "This Is Too Simple To Need A Design"
 
-The problem is not skipping design entirely; the problem is skipping thinking.
-
-For Light Lane work, the design can stay inline and brief.
-For Full Lane work, this full brainstorming workflow still applies.
+Every project goes through this process. A todo list, a single-function utility, a config change — all of them. "Simple" projects are where unexamined assumptions cause the most wasted work. The design can be short (a few sentences for truly simple projects), but you MUST present it and get approval.
 
 ## Checklist
 
