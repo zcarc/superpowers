@@ -11,9 +11,8 @@ Start by understanding the current project context, then ask questions one at a 
 
 
 <PRECONDITION>
-In the main session, `using-superpowers` should already have been invoked before this skill.
-If this is the main session and it has not been invoked, stop and invoke `using-superpowers` first.
-If this is a dispatched subagent, follow `using-superpowers`'s subagent rule and do not invoke it here.
+`using-superpowers` should already have been invoked in the top-level conversation before this skill.
+Dispatched subagents must not invoke it here.
 </PRECONDITION>
 
 <HARD-GATE>
