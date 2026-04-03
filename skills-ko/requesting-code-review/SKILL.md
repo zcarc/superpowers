@@ -9,6 +9,13 @@ description: 통합 또는 핸드오프 전에 완료된 변경 사항 세트에
 
 **코어 원칙:** 기본적으로 매 작업 후가 아닌, 의미 있는 체크포인트에서 완료된 전체 통합 결과물을 리뷰합니다.
 
+## 경계 (Boundary)
+
+이 기술은 리뷰를 조율하는 메인 에이전트 또는 다른 조정 에이전트를 위한 것입니다.
+리뷰 결과를 생성하는 서브에이전트 안에서 이 기술을 호출하지 마십시오.
+리뷰용 서브에이전트는 추가 리뷰를 오케스트레이션하지 말고 findings만 반환해야 합니다.
+메인 에이전트나 조정 에이전트는 범위와 위험에 따라 경량 리뷰 또는 심층 리뷰를 선택할 수 있습니다.
+
 ## 리뷰 요청 시점
 
 **심층 공식 리뷰 필수(Required for Deep Formal Review):**
@@ -119,6 +126,24 @@ HEAD_SHA=$(git rev-parse HEAD)
 
 사용자: [진행률 표시기 수정]
 [필요한 경우 리뷰 재요청 후 브랜치 완료 요청 수행]
+```
+
+## 경량 리뷰 예시 (Lightweight Review Example)
+
+```
+[작고 국소적인 버그 수정 완료]
+
+사용자: 진행하기 전에 경량 리뷰를 한 번 요청하겠습니다.
+
+BASE_SHA=$(git rev-parse HEAD~1)
+HEAD_SHA=$(git rev-parse HEAD)
+
+[superpowers:code-reviewer-light 하위 에이전트 발송]
+  WHAT_WAS_IMPLEMENTED: 단일 모듈의 작고 국소적인 버그 수정
+  PLAN_REFERENCE: 대화 중 인라인으로 정의된 작업 설명
+  BASE_SHA: 91ac2d1
+  HEAD_SHA: a47d220
+  DESCRIPTION: 한 컴포넌트의 잘못된 빈 상태 렌더링 수정
 ```
 
 ## 워크플로우 통합
